@@ -13,7 +13,7 @@ require('es5-shim/es5-sham');
 // import primary libraries
 import React from 'react';
 import { render } from 'react-dom';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
@@ -21,8 +21,7 @@ import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerReducer, routerMiddleware, push } from 'react-router-redux';
 
 // instantiate tap event plugin
-injectTapEventPlugin();
-
+// injectTapEventPlugin();
 
 // import scss files.
 // NOTE: Webpack does NOT actually import these as js. Instead it will generate the yote.css file.
@@ -39,7 +38,7 @@ import configureStore from './config/configureStore';
  * - instead of checking let's ONLY show console logs if it's chrome
  */
 
-if((navigator.userAgent.toLowerCase().indexOf('webkit') == -1) || !window.development) {
+ if((navigator.userAgent.toLowerCase().indexOf('webkit') == -1) || !window.development) {
   window.console = {log: function() {}, error: function(){} };
   /**
    * NOTE: overriding the error function may be dangerous, but IE throws some

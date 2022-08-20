@@ -5,10 +5,10 @@
   "description": "Find Your Road",
   "main": "yote.js",
   "scripts": {
-    "start": "webpack --progress --colors --watch",
-    "watch": "webpack --progress --colors --watch",
-    "debug": "webpack -d --progress --colors --watch",
-    "build": "webpack --progress --colors  --config ./webpack.prod.config.js"
+    "start": "webpack --progress --no-color --watch",
+    "watch": "webpack --progress --no-color --watch",
+    "debug": "webpack -d --progress --no-color --watch",
+    "build": "webpack --progress --no-color  --config ./webpack.prod.config.js"
   },
   "repository": {
     "type": "git",

@@ -147,20 +147,6 @@ class SingleFlow extends Binder {
             <p> { selectedFlow.description }</p>
             <Link className="yt-btn x-small bordered" to={`${this.props.match.url}/update`}> Edit </Link>
             <hr/>
-            { isTaskListEmpty ?
-              (isTaskListFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
-              :
-              <div style={{ opacity: isTaskListFetching ? 0.5 : 1 }}>
-                <ul>
-                  {taskListItems.map((task, i) =>
-                    <li key={task._id + i}>
-                      <h3>{task.name}</h3>
-                      <p>{task.description}</p>
-                    </li>
-                  )}
-                </ul>
-              </div>
-            }
             { !isNewTaskEmpty && showTaskForm ?
               <div>
                 <TaskForm
@@ -176,6 +162,56 @@ class SingleFlow extends Binder {
               : 
               <button className="yt-btn" onClick={() => this.setState({showTaskForm: true})}>Add new task</button>
             }
+						{isTaskListEmpty ? (
+							isTaskListFetching ? (
+								<h2>Loading...</h2>
+							) : (
+								<h2>Empty.</h2>
+							)
+						) : (
+							<div style={{ opacity: isTaskListFetching ? 0.5 : 1 }}>
+								{taskListItems.map((task, i) => {
+									if (!task.complete)
+										return (
+											<div key={task._id + i}>
+												<h3
+													className="mouse-point"
+													onClick={() => {
+														const { dispatch } = this.props;
+														dispatch(taskActions.sendUpdateTask({ ...task, complete: true }));
+													}}
+												>
+													[ ] {task.name}
+												</h3>
+												<p>{task.description}</p>
+												<Link to={`tasks/${task._id}`}>
+													<p>Comment</p>
+												</Link>
+											</div>
+										);
+								})}
+                
+								<hr />
+
+								{taskListItems.map((task, i) => {
+									if (task.complete)
+										return (
+											<div key={task._id + i}>
+												<h3
+													className="mouse-point"
+													onClick={() => {
+														const { dispatch } = this.props;
+														dispatch(taskActions.sendUpdateTask({ ...task, complete: false }));
+													}}
+												>
+													[X] {task.name}
+												</h3>
+											</div>
+										);
+								})}
+							</div>
+						)}
+
           </div>
         }
       </FlowLayout>

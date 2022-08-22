@@ -79,11 +79,9 @@ class FlowList extends Binder {
           (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
           :
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
-            <ul>
-              {flowListItems.map((flow, i) =>
-                <FlowListItem key={flow._id + i} flow={flow} />
-              )}
-            </ul>
+            {flowListItems.map((flow, i) =>
+              <FlowListItem key={flow._id + i} flow={flow} history={this.props.history} />
+            )}
           </div>
         }
       </FlowLayout>

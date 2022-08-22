@@ -9,7 +9,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
+import { Link, Redirect, withRouter } from 'react-router-dom';
+import NoteSection from '../../note/components/NoteSection.js.jsx';
+
 
 // import actions
 import * as taskActions from '../taskActions';
@@ -32,7 +34,7 @@ class SingleTask extends Binder {
   }
 
   render() {
-    const { taskStore } = this.props;
+    const { taskStore, userStore, flowStore } = this.props;
 
     /**
      * use the selected.getItem() utility to pull the actual task object from the map
@@ -49,6 +51,7 @@ class SingleTask extends Binder {
       taskStore.selected.isFetching
     )
 
+    if(flowStore.selected.id == null) return <Redirect to={{pathname: '/flows'}} />
     return (
       <TaskLayout>
         <h3> Single Task </h3>
@@ -58,12 +61,18 @@ class SingleTask extends Binder {
           <div style={{ opacity: isFetching ? 0.5 : 1 }}>
             <h1> { selectedTask.name }
             </h1>
-            <hr/>
-            <p> <em>Other characteristics about the Task would go here.</em></p>
+            <p> <em>{selectedTask.description}</em></p>
             <br/>
             <Link to={`${this.props.match.url}/update`}> Update Task </Link>
+            <hr/>
           </div>
         }
+				<NoteSection
+					_flow={flowStore.selected.id}
+					_task={taskStore.selected.id}
+					_user={userStore.loggedIn.user}
+					props={this.props}
+				/>      
       </TaskLayout>
     )
   }
@@ -79,7 +88,9 @@ const mapStoreToProps = (store) => {
   * differentiated from the React component's internal state
   */
   return {
-    taskStore: store.task
+    taskStore: store.task,
+    userStore: store.user,
+    flowStore: store.flow
   }
 }
 
